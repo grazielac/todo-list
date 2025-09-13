@@ -1,36 +1,33 @@
-let task = [];
+let task = []; // empty array to store tasks
 
-const input = document.getElementById("one");
-const button = document.getElementById("myButton");
+// grab all html elements to be used for later
+const input = document.getElementById("text");
+const button = document.getElementById("addButton");
 const taskContainer = document.getElementById("taskContainer");
 
-button.addEventListener("click", function (event) {
-  // this codes listen for a click on the button.
+// when this button is clicked, run this function
+button.addEventListener("click", function () {
+  const inputValue = input.value; // holds what the user type
 
-  // get the value from the input box
-  const inputValue = input.value;
-  // input is my html element (the box i grabbed with getElementId)
-  // .value is a property of that element. it holds what the user types inside the input box
+  if (inputValue.trim() !== "") { // removes whitespace from start and end
+    task.push(inputValue); // add it to array
 
+    const li = document.createElement("li"); 
+    li.textContent = inputValue; // set list to whatever is the input
 
-  if (inputValue.trim() !== "") {
-    // only runs if user actually typed something
-    task.push(inputValue);
+    const deleteBtn = document.createElement("button"); 
+    deleteBtn.textContent = "❌"; // set button to x
 
-    // create a new <li>
-    const li = document.createElement("li");
-    li.textContent = inputValue; // put the typed text inside <li>
+    deleteBtn.addEventListener("click", () => {
+      taskContainer.removeChild(li); // remove <li> inside <ul>
+      task = task.filter(function (t) { // run loop through each array 
+        return t !== inputValue;
+      });
+    });
 
-    // add the <li> to the <ul>
-    taskContainer.appendChild(li);
+    li.appendChild(deleteBtn); // add deleteBtn to <li>
+    taskContainer.appendChild(li); // add <li> into the <ul>
 
-    input.value = ""; // how does it know when to clear it?
-    console.log(task);
+    input.value = ""; // clear tasks
   }
-
-  // task - the array where i store my tasks
-  // .push(inputValue) - add the new value to the end of the array
-
-  // console.log(task); // shows the whole task array
-  // console.log(inputValue); // show just what was typed this time
 });
